@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p id="demo"></p>
+
+<script>
+    // Set the date we're counting down to
+    const msInHour = 3600000;
+
+    // TESTOVACÍ ÚDAJE
+    const zapnoutTestovani = false; // Když změníš na true tak to
+    const testDen = 29;
+    const testMesic = 10;
+    const testRok = 2022;
+    const testHodina = 14;
+
+    let setOrderHour = 16; // NASTAV SI HODINU DO KTERÉ SE MUSÍ OBJEDNAT
+
+    let date;
+    if(zapnoutTestovani){
+        date = new Date(testRok, testMesic-1, testDen, testHodina, 0, 0, 0); //SMAZAT
+    } else{
+        date = new Date();
+    }
+
+    let ms = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+
+    let tomorrow = new Date(ms - (2 * msInHour));
+    console.log(tomorrow);
+    let countDownDate = setOrderHour * msInHour + tomorrow.getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            let now
+            if(zapnoutTestovani){
+                now = new Date(testRok, testMesic-1, testDen, testHodina, 0, 0, 0); //SMAZAT
+            } else {
+                now = new Date();
+            }
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now.getTime();
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+
+            document.getElementById('demo').style.fontSize = '20px';
+
+            document.getElementById('demo').style.textAlign = 'center';
+
+            switch(date.getDay()) {
+                case 6:
+                    document.getElementById("demo").innerHTML = "sobota";
+                    break;
+                case 0:
+                    document.getElementById("demo").innerHTML = "nedele";
+                    break;
+                default:
+                    document.getElementById("demo").innerHTML = "Objednávky vytvořené do " + hours + "h "
+                        + minutes + "m " + seconds + "s " + " budou odeslány ještě dnes!"  ;
+
+                    // If the count down is finished, write some text
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("demo").innerHTML = "Objednávky vytvořené teď budou odeslány hned zítra!";
+                    }
+            }
+
+        }, 1000);
+
+</script>
+
+
+</body>
+</html>
