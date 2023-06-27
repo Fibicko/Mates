@@ -12,12 +12,33 @@
     // Set the date we're counting down to
     const msInHour = 3600000;
 
+    //Svátky
+    const svatky = new Array(
+        svatek = {mesic:1, den:1},
+        svatek = {mesic:4, den:15},
+        svatek = {mesic:4, den:18},
+        svatek = {mesic:5, den:1},
+        svatek = {mesic:5, den:8},
+        svatek = {mesic:7, den:5},
+        svatek = {mesic:7, den:6},
+        svatek = {mesic:9, den:28},
+        svatek = {mesic:10, den:28},
+        svatek = {mesic:11, den:17},
+        svatek = {mesic:12, den:24},
+        svatek = {mesic:12, den:25},
+        svatek = {mesic:12, den:26},
+        svatek = {mesic:12, den:29},
+    );
+
+
+    console.log(svatky[12].den);
+
     // TESTOVACÍ ÚDAJE
     const zapnoutTestovani = false; // Když změníš na true tak to
-    const testDen = 29;
-    const testMesic = 10;
-    const testRok = 2022;
-    const testHodina = 14;
+    const testDen = 6;
+    const testMesic = 7;
+    const testRok = 2023;
+    const testHodina = 11;
 
     let setOrderHour = 16; // NASTAV SI HODINU DO KTERÉ SE MUSÍ OBJEDNAT
 
@@ -28,7 +49,7 @@
         date = new Date();
     }
 
-    let ms = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+        let ms = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 
     let tomorrow = new Date(ms - (2 * msInHour));
     console.log(tomorrow);
@@ -59,7 +80,41 @@
 
             document.getElementById('demo').style.textAlign = 'center';
 
+            let jeSvatek = false;
+            for(let z=0; z<svatky.length;z++){
+                if(svatky[z].mesic==date.getMonth()+1 && svatky[z].den==date.getDate()){
+                    jeSvatek = true;
+                    break;
+                } else {
+                    jeSvatek = false;
+                }
+            }
+
+            console.log(jeSvatek==true ? 'Je svátek' : 'Není svátek');
+
             switch(date.getDay()) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    document.getElementById("demo").innerHTML = "Objednávky vytvořené do " + hours + "h "
+                        + minutes + "m " + seconds + "s " + " budou odeslány ještě dnes! Všední"  ;
+
+                    // If the count down is finished, write some text
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("demo").innerHTML = "Objednávky vytvořené teď budou odeslány hned zítra!";
+                    }
+                case 5:
+                    document.getElementById("demo").innerHTML = "Objednávky vytvořené do " + hours + "h "
+                        + minutes + "m " + seconds + "s " + " budou odeslány ještě dnes! Všední"  ;
+
+                    // If the count down is finished, write some text
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("demo").innerHTML = "Objednávky vytvořené teď budou odeslány hned v pondělí!";
+                    }
+                    break;
                 case 6:
                     document.getElementById("demo").innerHTML = "sobota";
                     break;
@@ -67,15 +122,7 @@
                     document.getElementById("demo").innerHTML = "nedele";
                     break;
                 default:
-                    document.getElementById("demo").innerHTML = "Objednávky vytvořené do " + hours + "h "
-                        + minutes + "m " + seconds + "s " + " budou odeslány ještě dnes!"  ;
-
-                    // If the count down is finished, write some text
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("demo").innerHTML = "Objednávky vytvořené teď budou odeslány hned zítra!";
                     }
-            }
 
         }, 1000);
 
